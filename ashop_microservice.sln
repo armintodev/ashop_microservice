@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34009.444
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{667F4781-5E88-41B3-A8DD-A595320DB88E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AShop.CatalogService", "AShop.CatalogService", "{D3276FB5-A36A-45B9-8509-C15AB6C69A3B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "01-Domain", "src\AShop.CatalogService\01-Domain\01-Domain.csproj", "{44C512F8-4F2A-4413-BAFD-7386C9A3F650}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "02-Persistence", "src\AShop.CatalogService\02-Persistence\02-Persistence.csproj", "{30AE3044-88A6-42CB-A273-90DC685F92E0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "99-CatalogApi", "src\AShop.CatalogService\99-CatalogApi\99-CatalogApi.csproj", "{474FC3CE-C434-4120-9B4F-0C8DB0F35B70}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81F7F047-894B-44ED-91B8-657D170A1B74}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AShop.BasketService", "AShop.BasketService", "{7931DA37-1315-42D8-AD7B-E213220ECA2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket", "src\AShop.BasketService\Basket\Basket.csproj", "{0AA22379-A59B-40C0-9A74-F42C43A94AAA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{44C512F8-4F2A-4413-BAFD-7386C9A3F650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44C512F8-4F2A-4413-BAFD-7386C9A3F650}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44C512F8-4F2A-4413-BAFD-7386C9A3F650}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44C512F8-4F2A-4413-BAFD-7386C9A3F650}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30AE3044-88A6-42CB-A273-90DC685F92E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30AE3044-88A6-42CB-A273-90DC685F92E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30AE3044-88A6-42CB-A273-90DC685F92E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30AE3044-88A6-42CB-A273-90DC685F92E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{474FC3CE-C434-4120-9B4F-0C8DB0F35B70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{474FC3CE-C434-4120-9B4F-0C8DB0F35B70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{474FC3CE-C434-4120-9B4F-0C8DB0F35B70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{474FC3CE-C434-4120-9B4F-0C8DB0F35B70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81F7F047-894B-44ED-91B8-657D170A1B74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81F7F047-894B-44ED-91B8-657D170A1B74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81F7F047-894B-44ED-91B8-657D170A1B74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81F7F047-894B-44ED-91B8-657D170A1B74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AA22379-A59B-40C0-9A74-F42C43A94AAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AA22379-A59B-40C0-9A74-F42C43A94AAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AA22379-A59B-40C0-9A74-F42C43A94AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AA22379-A59B-40C0-9A74-F42C43A94AAA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D3276FB5-A36A-45B9-8509-C15AB6C69A3B} = {667F4781-5E88-41B3-A8DD-A595320DB88E}
+		{44C512F8-4F2A-4413-BAFD-7386C9A3F650} = {D3276FB5-A36A-45B9-8509-C15AB6C69A3B}
+		{30AE3044-88A6-42CB-A273-90DC685F92E0} = {D3276FB5-A36A-45B9-8509-C15AB6C69A3B}
+		{474FC3CE-C434-4120-9B4F-0C8DB0F35B70} = {D3276FB5-A36A-45B9-8509-C15AB6C69A3B}
+		{7931DA37-1315-42D8-AD7B-E213220ECA2C} = {667F4781-5E88-41B3-A8DD-A595320DB88E}
+		{0AA22379-A59B-40C0-9A74-F42C43A94AAA} = {7931DA37-1315-42D8-AD7B-E213220ECA2C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E886C816-1CCD-4C4B-AA67-7BD73D0D4C5D}
+	EndGlobalSection
+EndGlobal

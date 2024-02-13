@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  catalogdb:
+    image: mongo
+
+  basketdb:
+    image: redis
+
+  99-catalogapi:
+    image: ${DOCKER_REGISTRY-}99catalogapi
+    build:
+      context: .
+      dockerfile: src/AShop.CatalogService/99-CatalogApi/Dockerfile
+
+  
+  basket:
+    image: ${DOCKER_REGISTRY-}basket
+    build:
+      context: .
+      dockerfile: src/AShop.BasketService/Basket/Dockerfile

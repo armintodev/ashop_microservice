@@ -1,0 +1,58 @@
+version: '3.4'
+
+services:
+  catalogdb:
+    container_name: catalogdb
+    restart: on-failure
+    volumes:
+    - "ashop:/ashop/db"
+    ports:
+    - "0.0.0.0:27017:27017"
+
+  basketdb:
+    container_name: basketdb
+    restart: on-failure
+    volumes:
+    - "ashop:/ashop/db"
+    ports:
+    - "0.0.0.0:6379:6379"
+
+  99-catalogapi:
+    container_name: catalog_api
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Armin126266354
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      # - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=5001
+      - "ASPNETCORE_URLS=https://+:443" #TODO: we can also set in 99-catalog_api DockerFile
+    depends_on:
+      - catalogdb
+    ports:
+      # - "0.0.0.0:8080:80" # the 80 port has not exposed in DockerFile
+      - "0.0.0.0:5001:443"
+    volumes:
+      - ashop:/ashop/app
+      - ~/.aspnet/https:/https:ro
+
+  basket:
+    container_name: basket_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Armin126266354
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      # - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=5002
+      - "ASPNETCORE_URLS=https://+:443" #TODO: we can also set in 99-catalog_api DockerFile
+    depends_on:
+      - basketdb
+    ports:
+      # - "0.0.0.0:8090:80"
+      - "0.0.0.0:5002:443"
+    volumes:
+      - ashop:/ashop/app
+      - ~/.aspnet/https:/https:ro
+
+volumes:
+  ashop:
