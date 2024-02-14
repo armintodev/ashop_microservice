@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.8'
 
 services:
   catalogdb:
@@ -7,15 +7,26 @@ services:
   basketdb:
     image: redis
 
+  discountdb:
+    image: postgres
+  
+  # pgadmin:   
+  #   image: dpage/pgadmin4
+
   99-catalogapi:
     image: ${DOCKER_REGISTRY-}99catalogapi
     build:
       context: .
       dockerfile: src/AShop.CatalogService/99-CatalogApi/Dockerfile
-
   
   basket:
     image: ${DOCKER_REGISTRY-}basket
     build:
       context: .
       dockerfile: src/AShop.BasketService/Basket/Dockerfile
+
+  discount:
+    image: ${DOCKER_REGISTRY-}discount
+    build:
+      context: .
+      dockerfile: src/AShop.DiscountService/Discount/Dockerfile

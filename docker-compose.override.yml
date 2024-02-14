@@ -17,6 +17,30 @@ services:
     ports:
     - "0.0.0.0:6379:6379"
 
+  discountdb:
+    container_name: discountdb
+    shm_size: 512mb
+    restart: on-failure
+    environment:
+     POSTGRES_PASSWORD: Armin126266354
+     POSTGRES_USER: armin
+     POSTGRES_DB: DiscountDb
+    volumes:
+     - "ashop:/var/lib/postgresql/data/"
+    ports:
+     - "0.0.0.0:5432:5432"
+
+  # pgadmin:
+  #  container_name: pgadmin
+  #  restart: on-failure
+  #  environment:
+  #   - "PGADMIN_DEFAULT_EMAIL=armin@ashop_microservice.com"
+  #   - "PGADMIN_DEFAULT_PASSWORD=Armin126266354"
+  #  ports:
+  #   - "5050:80"
+  #  volumes:
+  #   - ashop:/root/.pgadmin
+
   99-catalogapi:
     container_name: catalog_api
     restart: always
@@ -54,5 +78,23 @@ services:
       - ashop:/ashop/app
       - ~/.aspnet/https:/https:ro
 
+  discount:
+    container_name: discount_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Armin126266354
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      # - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=5003
+      - "ASPNETCORE_URLS=https://+:443" #TODO: we can also set in 99-catalog_api DockerFile
+    depends_on:
+      - basketdb
+    ports:
+      # - "0.0.0.0:8090:80"
+      - "0.0.0.0:5003:443"
+    volumes:
+      - ashop:/ashop/app
+      - ~/.aspnet/https:/https:ro
+
 volumes:
-  ashop:
+  ashop: # this volumes is not correct for who's using this vol

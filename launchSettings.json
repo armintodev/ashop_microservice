@@ -6,7 +6,8 @@
       "serviceActions": {
         "99-catalogapi": "StartDebugging",
         "catalogdb": "StartWithoutDebugging",
-        "basket": "StartDebugging"
+        "basket": "StartDebugging",
+        "discount": "StartDebugging"
       }
     }
   }
