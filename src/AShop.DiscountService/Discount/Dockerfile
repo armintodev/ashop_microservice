@@ -4,8 +4,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 USER app
 WORKDIR /app
 
-EXPOSE 443
-#EXPOSE 80 # comment this out if you want to
+#EXPOSE 443
+EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release

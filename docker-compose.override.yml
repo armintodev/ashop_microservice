@@ -41,60 +41,95 @@ services:
   #  volumes:
   #   - ashop:/root/.pgadmin
 
-  99-catalogapi:
+  catalog_api:
     container_name: catalog_api
     restart: always
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=Armin126266354
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-      # - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=5001
-      - "ASPNETCORE_URLS=https://+:443" #TODO: we can also set in 99-catalog_api DockerFile
+
+      - ASPNETCORE_HTTP_PORTS=5001
+      # - ASPNETCORE_HTTPS_PORTS=5001
+
+      - "ASPNETCORE_URLS=http://+:80" #TODO: we can also set in 99-catalog_api DockerFile
+      # - "ASPNETCORE_URLS=https://+:443"
     depends_on:
       - catalogdb
     ports:
-      # - "0.0.0.0:8080:80" # the 80 port has not exposed in DockerFile
-      - "0.0.0.0:5001:443"
+      - "0.0.0.0:5001:80"
+      # - "0.0.0.0:5001:443"
     volumes:
       - ashop:/ashop/app
-      - ~/.aspnet/https:/https:ro
 
-  basket:
+  basket_api:
     container_name: basket_api
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=Armin126266354
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-      # - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=5002
-      - "ASPNETCORE_URLS=https://+:443" #TODO: we can also set in 99-catalog_api DockerFile
     depends_on:
       - basketdb
-    ports:
-      # - "0.0.0.0:8090:80"
-      - "0.0.0.0:5002:443"
-    volumes:
-      - ashop:/ashop/app
-      - ~/.aspnet/https:/https:ro
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=5002
+      # - ASPNETCORE_HTTPS_PORTS=5002
 
-  discount:
-    container_name: discount_api
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=Armin126266354
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-      # - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=5003
-      - "ASPNETCORE_URLS=https://+:443" #TODO: we can also set in 99-catalog_api DockerFile
-    depends_on:
-      - basketdb
+      - "ASPNETCORE_URLS=http://+:80" #TODO: we can also set in basket_api DockerFile
+      # - "ASPNETCORE_URLS=https://+:443"
     ports:
-      # - "0.0.0.0:8090:80"
-      - "0.0.0.0:5003:443"
+      # - "0.0.0.0:5002:443"
+      - "0.0.0.0:5002:80"
     volumes:
       - ashop:/ashop/app
-      - ~/.aspnet/https:/https:ro
+
+  discount_api:
+    container_name: discount_api
+    restart: always
+    depends_on:
+      - discountdb
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=5003
+      # - ASPNETCORE_HTTPS_PORTS=5003
+
+      - "ASPNETCORE_URLS=http://+:80" #TODO: we can also set in discount_api DockerFile
+      # - "ASPNETCORE_URLS=https://+:443"
+    ports:
+      - "5003:80"
+      # - "0.0.0.0:5003:443"
+    volumes:
+      - ashop:/ashop/app
+
+    networks:
+      - ashop_net
+
+  ocelotapigw:
+    container_name: ocelotapigw
+    depends_on:
+      - catalog_api
+      - discount_api
+      - basket_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+      - ASPNETCORE_HTTP_PORTS=5010
+      # - ASPNETCORE_HTTPS_PORTS=5010
+
+      - "ASPNETCORE_URLS=http://+:80" #TODO: we can also set in 99-catalog_api DockerFile
+      # - "ASPNETCORE_URLS=https://+:443"
+    ports:
+      - "0.0.0.0:5010:80"
+      # - "0.0.0.0:5010:443"
+    volumes:
+      - ashop:/ashop/app
+
+    networks:
+      - ashop_net
 
 volumes:
   ashop: # this volumes is not correct for who's using this vol
+
+networks:
+  ashop_net:
+    name: ashop
+    external: true
+
+#to use HTTPS protocol please add these code to each container environment and volumes
+# env -> ASPNETCORE_Kestrel__Certificates__Default__Password=<your cert pass>
+# env -> ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+# vol -> ~/.aspnet/https:/https:ro
