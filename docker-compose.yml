@@ -13,20 +13,27 @@ services:
   # pgadmin:   
   #   image: dpage/pgadmin4
 
-  99-catalogapi:
+  catalog_api:
     image: ${DOCKER_REGISTRY-}99catalogapi
     build:
       context: .
       dockerfile: src/AShop.CatalogService/99-CatalogApi/Dockerfile
   
-  basket:
+  basket_api:
     image: ${DOCKER_REGISTRY-}basket
     build:
       context: .
       dockerfile: src/AShop.BasketService/Basket/Dockerfile
 
-  discount:
+  discount_api:
     image: ${DOCKER_REGISTRY-}discount
     build:
       context: .
       dockerfile: src/AShop.DiscountService/Discount/Dockerfile
+
+  ocelotapigw:
+    image: ${DOCKER_REGISTRY-}ocelotapigw
+    build:
+      context: .
+      dockerfile: src/ApiGateways/OcelotApiGw/Dockerfile
+

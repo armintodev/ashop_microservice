@@ -4,10 +4,11 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "99-catalogapi": "StartDebugging",
+        "catalog_api": "StartDebugging",
         "catalogdb": "StartWithoutDebugging",
-        "basket": "StartDebugging",
-        "discount": "StartDebugging"
+        "basket_api": "StartDebugging",
+        "discount_api": "StartDebugging",
+        "ocelotapigw": "StartDebugging"
       }
     }
   }
