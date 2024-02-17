@@ -110,7 +110,7 @@ services:
       - ASPNETCORE_HTTP_PORTS=5010
       # - ASPNETCORE_HTTPS_PORTS=5010
 
-      - "ASPNETCORE_URLS=http://+:80" #TODO: we can also set in 99-catalog_api DockerFile
+      - "ASPNETCORE_URLS=http://+:80" #TODO: we can also set in ocelotapigw DockerFile
       # - "ASPNETCORE_URLS=https://+:443"
     ports:
       - "0.0.0.0:5010:80"
@@ -120,6 +120,31 @@ services:
 
     networks:
       - ashop_net
+
+  shopping.aggregator:
+    container_name: shopping.aggregator
+    depends_on:
+     - catalog_api
+     - basket_api
+    environment:
+     - ASPNETCORE_ENVIRONMENT=Development
+
+      - "ApiSettings__CatalogUrl=http://catalog_api"
+      - "ApiSettings__BasketUrl=http://basket_api"
+
+     - ASPNETCORE_HTTP_PORTS=5011
+     # - ASPNETCORE_HTTPS_PORTS=5011
+
+     - "ASPNETCORE_URLS=http://+:80" #TODO: we can also set in shopping.aggregator DockerFile
+     # - "ASPNETCORE_URLS=https://+:443"
+    ports:
+     - "0.0.0.0:5011:80"
+     # - "0.0.0.0:5011:443"
+    volumes:
+     - ashop:/ashop/app
+
+    networks:
+     - ashop_net
 
 volumes:
   ashop: # this volumes is not correct for who's using this vol
