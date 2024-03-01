@@ -4,16 +4,17 @@ services:
   catalogdb:
     container_name: catalogdb
     restart: on-failure
-    volumes:
-    - "ashop:/ashop/db"
+    # volumes: # if you would like to use volume please uncomment this sections
+    # - "/data/db:/ashop/catalogDb/data"
+    # - "/data/configdb:/ashop/catalogDb/config"
     ports:
     - "0.0.0.0:27017:27017"
 
   basketdb:
     container_name: basketdb
     restart: on-failure
-    volumes:
-    - "ashop:/ashop/db"
+    # volumes: # if you would like to use volume please uncomment this sections
+    # - "/usr/local/etc/redis:/ashop/basketDb"
     ports:
     - "0.0.0.0:6379:6379"
 
@@ -25,10 +26,29 @@ services:
      POSTGRES_PASSWORD: Armin126266354
      POSTGRES_USER: armin
      POSTGRES_DB: DiscountDb
-    volumes:
-     - "ashop:/var/lib/postgresql/data/"
+     # PGDATA: /ashop/discountDb/data/pgdata # if you would like to use volume please uncomment this sections
+    # volumes:
+     # - "/ashop/discountDb:/var/lib/postgresql"
+     # - "/var/lib/postgresql/data:/ashop/discountDb/data"
     ports:
      - "0.0.0.0:5432:5432"
+
+    networks:
+      - ashop
+
+  rabbitmq:
+    container_name: rabbitmq_store
+    #shm_size: 512mb
+    restart: on-failure
+    environment:
+     RABBITMQ_DEFAULT_USER: "armin"
+     RABBITMQ_DEFAULT_PASS: "Armin126266354"
+     # RABBITMQ_DATA_DIR: "/ashop/rabbitmq" # if you would like to use volume please uncomment this sectionss
+    # volumes: 
+    #  - "/var/lib/rabbitmq:/ashop/rabbitmq"
+    ports:
+     - "0.0.0.0:5672:5672"
+     - "0.0.0.0:15672:15672"
 
   # pgadmin:
   #  container_name: pgadmin
@@ -43,7 +63,7 @@ services:
 
   catalog_api:
     container_name: catalog_api
-    restart: always
+    restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
 
@@ -58,7 +78,7 @@ services:
       - "0.0.0.0:5001:80"
       # - "0.0.0.0:5001:443"
     volumes:
-      - ashop:/ashop/app
+      - /ashop/app
 
   basket_api:
     container_name: basket_api
@@ -75,11 +95,11 @@ services:
       # - "0.0.0.0:5002:443"
       - "0.0.0.0:5002:80"
     volumes:
-      - ashop:/ashop/app
+      - /ashop/app
 
   discount_api:
     container_name: discount_api
-    restart: always
+    restart: on-failure
     depends_on:
       - discountdb
     environment:
@@ -93,10 +113,10 @@ services:
       - "5003:80"
       # - "0.0.0.0:5003:443"
     volumes:
-      - ashop:/ashop/app
+      - /ashop/app
 
     networks:
-      - ashop_net
+      - ashop
 
   ocelotapigw:
     container_name: ocelotapigw
@@ -116,10 +136,10 @@ services:
       - "0.0.0.0:5010:80"
       # - "0.0.0.0:5010:443"
     volumes:
-      - ashop:/ashop/app
+      - /ashop/app
 
     networks:
-      - ashop_net
+      - ashop
 
   shopping.aggregator:
     container_name: shopping.aggregator
@@ -141,18 +161,17 @@ services:
      - "0.0.0.0:5011:80"
      # - "0.0.0.0:5011:443"
     volumes:
-     - ashop:/ashop/app
+     - /ashop/app
 
     networks:
-     - ashop_net
+     - ashop
 
 volumes:
   ashop: # this volumes is not correct for who's using this vol
 
 networks:
-  ashop_net:
+  ashop:
     name: ashop
-    external: true
 
 #to use HTTPS protocol please add these code to each container environment and volumes
 # env -> ASPNETCORE_Kestrel__Certificates__Default__Password=<your cert pass>

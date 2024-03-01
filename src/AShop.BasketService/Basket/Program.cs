@@ -1,4 +1,5 @@
 using Basket.Repositories;
+using MassTransit;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,11 @@ builder.Services.AddSwaggerGen(c =>
         Title = "Catalog API",
         Version = "v1"
     });
+});
+
+builder.Services.AddMassTransit(mass =>
+{
+    mass.UsingRabbitMq((ctx, cfg) => { cfg.Host(builder.Configuration["EventBusSettings:RabbitHost"]); });
 });
 
 builder.Services.AddEndpointsApiExplorer();

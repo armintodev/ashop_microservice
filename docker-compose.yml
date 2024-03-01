@@ -43,3 +43,6 @@ services:
     build:
       context: .
       dockerfile: src/ApiGateways/Shopping.Aggregator/Dockerfile
+
+  rabbitmq:
+    image: rabbitmq:management
