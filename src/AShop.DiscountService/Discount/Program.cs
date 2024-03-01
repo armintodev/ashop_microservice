@@ -1,4 +1,5 @@
 using Discount.Data;
+using Discount.Data.Seed;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -25,6 +26,9 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
+
+if (builder.Environment.IsDevelopment())
+    await app.Seed();
 
 app.UseRouting();
 
