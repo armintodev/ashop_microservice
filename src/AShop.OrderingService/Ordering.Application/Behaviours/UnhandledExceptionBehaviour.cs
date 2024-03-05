@@ -3,7 +3,7 @@
 namespace Ordering.Application.Behaviours;
 
 public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : notnull
+    where TRequest : IRequest<TResponse>
 {
     private readonly ILogger<TRequest> _logger;
 
@@ -15,8 +15,8 @@ public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavio
     public async Task<TResponse> Handle
     (
         TRequest request,
-        CancellationToken cancellationToken,
-        RequestHandlerDelegate<TResponse> next
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken
     )
     {
         try

@@ -33,13 +33,12 @@ public class Startup
             config.UsingRabbitMq((ctx, cfg) =>
             {
                 cfg.Host(Configuration["EventBusSettings:HostAddress"]);
-                cfg.UseHealthCheck(ctx);
+                // cfg.UseHealthCheck(ctx);
 
                 cfg.ReceiveEndpoint(EventBusConstants.BasketCheckoutQueue,
                     c => { c.ConfigureConsumer<BasketCheckoutConsumer>(ctx); });
             });
         });
-        services.AddMassTransitHostedService();
 
         // General Configuration
         services.AddScoped<BasketCheckoutConsumer>();
