@@ -36,6 +36,19 @@ services:
     networks:
       - ashop
 
+  orderingdb:
+    container_name: orderingdb
+    shm_size: 512mb
+    restart: on-failure
+    environment:
+     ACCEPT_EULA: "Y"
+     SA_PASSWORD: "Armin126266354"
+    ports:
+     - "0.0.0.0:1433:1433"
+
+    networks:
+      - ashop
+
   rabbitmq:
     container_name: rabbitmq_store
     #shm_size: 512mb
@@ -118,6 +131,27 @@ services:
     networks:
       - ashop
 
+  ordering_api:
+    container_name: ordering_api
+    restart: on-failure
+    depends_on:
+      - orderingdb
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=5004
+      # - ASPNETCORE_HTTPS_PORTS=5004
+
+      - "ASPNETCORE_URLS=http://+:80" #TODO: we can also set in discount_api DockerFile
+      # - "ASPNETCORE_URLS=https://+:443"
+    ports:
+      - "5004:80"
+      # - "0.0.0.0:5004:443"
+    volumes:
+      - /ashop/app
+
+    networks:
+      - ashop
+
   ocelotapigw:
     container_name: ocelotapigw
     depends_on:
@@ -177,3 +211,4 @@ networks:
 # env -> ASPNETCORE_Kestrel__Certificates__Default__Password=<your cert pass>
 # env -> ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
 # vol -> ~/.aspnet/https:/https:ro
+
