@@ -9,7 +9,8 @@
         "basket_api": "StartDebugging",
         "discount_api": "StartDebugging",
         "ocelotapigw": "StartDebugging",
-        "shopping.aggregator": "StartDebugging"
+        "shopping.aggregator": "StartDebugging",
+        "ordering_api": "StartDebugging"
       }
     }
   }

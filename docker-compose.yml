@@ -9,6 +9,9 @@ services:
 
   discountdb:
     image: postgres
+
+  orderingdb:
+    image: mcr.microsoft.com/mssql/server
   
   # pgadmin:   
   #   image: dpage/pgadmin4
@@ -31,15 +34,23 @@ services:
       context: .
       dockerfile: src/AShop.DiscountService/Discount/Dockerfile
 
+  ordering_api:
+    image: ${DOCKER_REGISTRY-}orderingapi
+    build:
+      context: .
+      dockerfile: src/AShop.OrderingService/Ordering.API/Dockerfile
+
   ocelotapigw:
     image: ${DOCKER_REGISTRY-}ocelotapigw
     build:
       context: .
       dockerfile: src/ApiGateways/OcelotApiGw/Dockerfile
 
-
   shopping.aggregator:
     image: ${DOCKER_REGISTRY-}shoppingaggregator
     build:
       context: .
       dockerfile: src/ApiGateways/Shopping.Aggregator/Dockerfile
+
+  rabbitmq:
+    image: rabbitmq:management
