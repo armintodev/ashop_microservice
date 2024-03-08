@@ -11,14 +11,14 @@ public class ShoppingController : ControllerBase
 {
     private readonly ICatalogService _catalogService;
     private readonly IBasketService _basketService;
-    // private readonly IOrderService _orderService;
+    private readonly IOrderService _orderService;
 
     public ShoppingController
-        (ICatalogService catalogService, IBasketService basketService /*, IOrderService orderService*/)
+        (ICatalogService catalogService, IBasketService basketService, IOrderService orderService)
     {
-        _catalogService = catalogService ?? throw new ArgumentNullException(nameof(catalogService));
-        _basketService = basketService ?? throw new ArgumentNullException(nameof(basketService));
-        // _orderService = orderService ?? throw new ArgumentNullException(nameof(orderService));
+        _catalogService = catalogService;
+        _basketService = basketService;
+        _orderService = orderService;
     }
 
     [HttpGet("{userName}", Name = "GetShopping")]
@@ -39,13 +39,13 @@ public class ShoppingController : ControllerBase
             item.ImageFile = product.ImageFile;
         }
 
-        // var orders = await _orderService.GetOrdersByUserName(userName);
+        var orders = await _orderService.GetOrdersByUserName(userName);
 
         var shoppingModel = new ShoppingModel
         {
             UserName = userName,
             BasketWithProducts = basket,
-            // Orders = orders
+            Orders = orders
         };
 
         return Ok(shoppingModel);

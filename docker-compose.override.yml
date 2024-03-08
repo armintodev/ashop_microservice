@@ -10,6 +10,9 @@ services:
     ports:
     - "0.0.0.0:27017:27017"
 
+    networks:
+    - ashop
+
   basketdb:
     container_name: basketdb
     restart: on-failure
@@ -17,6 +20,9 @@ services:
     # - "/usr/local/etc/redis:/ashop/basketDb"
     ports:
     - "0.0.0.0:6379:6379"
+
+    networks:
+    - ashop
 
   discountdb:
     container_name: discountdb
@@ -63,6 +69,9 @@ services:
      - "0.0.0.0:5672:5672"
      - "0.0.0.0:15672:15672"
 
+    networks:
+      - ashop
+
   # pgadmin:
   #  container_name: pgadmin
   #  restart: on-failure
@@ -93,10 +102,14 @@ services:
     volumes:
       - /ashop/app
 
+    networks:
+      - ashop
+
   basket_api:
     container_name: basket_api
     depends_on:
       - basketdb
+      - rabbitmq
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=5002
@@ -110,11 +123,15 @@ services:
     volumes:
       - /ashop/app
 
+    networks:
+      - ashop
+
   discount_api:
     container_name: discount_api
     restart: on-failure
     depends_on:
       - discountdb
+      - rabbitmq
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=5003
@@ -133,9 +150,10 @@ services:
 
   ordering_api:
     container_name: ordering_api
-    restart: on-failure
+    restart: always
     depends_on:
       - orderingdb
+      - rabbitmq
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=5004
@@ -180,6 +198,7 @@ services:
     depends_on:
      - catalog_api
      - basket_api
+     - ordering_api
     environment:
      - ASPNETCORE_ENVIRONMENT=Development
 
