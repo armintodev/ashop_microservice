@@ -109,20 +109,20 @@
       ],
       "UpstreamPathTemplate": "/Discount",
       "UpstreamHttpMethod": [ "PUT", "POST" ]
-    }
+    },
     //Order API
-    //{
-    //  "DownstreamPathTemplate": "/api/v1/Order/{userName}",
-    //  "DownstreamScheme": "http",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "localhost",
-    //      "Port": "8004"
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/Order/{userName}",
-    //  "UpstreamHttpMethod": [ "GET" ]
-    //}
+    {
+      "DownstreamPathTemplate": "/api/v1/Order/{userName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "ordering_api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/Order/{userName}",
+      "UpstreamHttpMethod": [ "GET" ]
+    }
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:5010"
